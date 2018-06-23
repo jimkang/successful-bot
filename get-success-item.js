@@ -28,7 +28,10 @@ function getSuccessItem(done) {
       'always',
       'religiously'
     ]);
-    var decorated = `${baseStatement} ${suffix}`;
+    var decorated = baseStatement;
+    if (probable.roll(3) === 0) {
+      decorated = `${baseStatement} ${suffix}`;
+    }
     callNextTick(done, null, decorated);
   }
 }

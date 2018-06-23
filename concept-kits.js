@@ -105,7 +105,6 @@ var kitsByName = {
       } else {
         return pick([
           `${object} because ${concept}`,
-          `${object}`,
           `experience ${concept}, then ${object}`
         ]);
       }
@@ -226,7 +225,11 @@ var kitsByName = {
   // return useReceivers ? `genres ${concept} is in` : `things in the ${concept} genre`;
   // }
   // },
-  dbpedia_influencedBy: {}
+  dbpedia_influencedBy: {
+    format({ concept }) {
+      return `${ pick(['worship', 'are influenced by', 'respect']) } ${concept}`;
+    }
+  }
 };
 
 function causalStyleFormat({ subject, object, concept }) {
@@ -250,7 +253,7 @@ function whileStyleFormat({ subject, object, concept }) {
     return concept;
   }
   if (subject) {
-    return pick([`does ${concept} when ${subject}`]);
+    return pick([`${concept} when ${subject}`]);
   } else {
     return pick([`${object} while ${concept}`]);
   }
@@ -261,9 +264,9 @@ function sequentialStyleFormat({ subject, object, concept }) {
     return concept;
   }
   if (subject) {
-    return pick([`does ${concept} before ${subject}`]);
+    return pick([`does ${concept} before ${subject}`, concept]);
   } else {
-    return pick([`remembers to ${object} when they ${concept}`]);
+    return pick([`remembers to ${object} when they ${concept}`, concept]);
   }
 }
 
@@ -309,15 +312,16 @@ var table = probable.createTableFromSizes([
   [2, 'UsedFor'],
   [2, 'CausesDesire'],
   [2, 'CreatedBy'],
-  [2, 'DefinedAs'],
+  [1, 'DefinedAs'],
   [2, 'HasLastSubevent'],
   [2, 'HasFirstSubevent'],
   [2, 'HasSubevent'],
   [2, 'HasPrerequisite'],
   [2, 'HasProperty'],
-  [2, 'InstanceOf'],
-  [2, 'MadeOf'],
-  [2, 'MotivatedByGoal']
+  [1, 'InstanceOf'],
+  [1, 'MadeOf'],
+  [2, 'MotivatedByGoal'],
+  [2, 'dbpedia_influencedBy']
 ]);
 
 module.exports = {
