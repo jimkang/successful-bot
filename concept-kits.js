@@ -187,13 +187,28 @@ var kitsByName = {
   // return useReceivers ? `${concept}` : `${concept} things`;
   // }
   // }
-  MadeOf: {},
+  MadeOf: { format: identityStyleFormat },
   // MannerOf: {
   // format({ subject, object }) {
   // return useReceivers ? `way to ${concept}` : `things is a way to ${concept}`;
   // }
   // }
-  MotivatedByGoal: {},
+  MotivatedByGoal: {
+    format({ subject, object, concept }) {
+      if (!subject && !object) {
+        return;
+      }
+      if (subject) {
+        return pick([
+          `gets the connection between ${subject} and ${concept}`,
+          `${subject} to ${concept}`,
+          subject
+        ]);
+      } else {
+        return pick([`does ${concept} to ${object}`, concept, object]);
+      }
+    }
+  },
   // NotCapableOf: {
   // format({ subject, object }) {
   // return useReceivers ? `things that ${concept} can't do` : `things that can't ${concept}`;
@@ -301,7 +316,9 @@ var table = probable.createTableFromSizes([
   [2, 'HasSubevent'],
   [2, 'HasPrerequisite'],
   [2, 'HasProperty'],
-  [2000, 'InstanceOf']
+  [2, 'InstanceOf'],
+  [2, 'MadeOf'],
+  [2000, 'MotivatedByGoal']
 ]);
 
 module.exports = {
