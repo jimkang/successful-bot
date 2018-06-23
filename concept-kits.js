@@ -108,10 +108,22 @@ var kitsByName = {
     }
   },
   CausesDesire: {
-    format({ subject, object }) {
-      return useReceivers
-        ? `things ${concept} makes you want`
-        : `things that make you want to ${concept.toLowerCase()}`;
+    format({ subject, object, concept }) {
+      if (!subject && !object) {
+        return;
+      }
+      if (subject) {
+        return pick([
+          `want to ${concept}`,
+          `${concept} to deal with their ${subject}`
+        ]);
+      } else {
+        return pick([
+          `${object} because ${concept}`,
+          `${object}`,
+          `experience ${concept}, then ${object}`
+        ]);
+      }
     }
   },
   CreatedBy: {
@@ -239,7 +251,8 @@ var table = probable.createTableFromSizes([
   [2, 'Causes'],
   [2, 'HasA'],
   [2, 'PartOf'],
-  [2000, 'UsedFor']
+  [2, 'UsedFor'],
+  [2000, 'CausesDesire']
 ]);
 
 module.exports = {
