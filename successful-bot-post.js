@@ -47,7 +47,9 @@ function getListItems(numberOfItems, done) {
 function assembleList(successItems, done) {
   var listMessage = `The most successful people I've met:
 
-${compact(successItems).map(numberItem).join('\n')}`;
+${compact(successItems)
+    .map(numberItem)
+    .join('\n')}`;
   callNextTick(done, null, listMessage);
 }
 
@@ -69,7 +71,7 @@ function numberItem(item, i) {
 
 function postToTwitter(text, done) {
   var body = {
-    status: text 
+    status: text
   };
   twit.post('statuses/update', body, done);
 }
@@ -101,4 +103,3 @@ function wrapUp(error, data) {
     console.log('Completed successfully.');
   }
 }
-

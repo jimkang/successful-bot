@@ -35,25 +35,76 @@ var kitsByName = {
     }
   },
   Causes: {
-    format({ subject, object }) {
-      return useReceivers ? `results of ${concept}` : `causes of ${concept}`;
+    format({ subject, object, concept }) {
+      if (!subject && !object) {
+        return;
+      }
+      if (subject) {
+        return pick([
+          `understands that ${concept} comes from ${subject}`,
+          `${subject} to get ${concept}`
+        ]);
+      } else {
+        return pick([
+          `understands that ${object} comes from ${concept}`,
+          `gets ${object} via ${concept}`
+        ]);
+      }
     }
   },
   HasA: {
-    format({ subject, object }) {
-      return useReceivers ? `aspects of ${concept}` : `havers of ${concept}`;
+    format({ subject, object, concept }) {
+      if (!subject && !object) {
+        return;
+      }
+      if (subject) {
+        return pick([
+          `pays attention to the ${subject} *and* its ${concept}`,
+          `uses ${subject} to get ${concept}`,
+          `eats around the ${concept} in ${subject}`
+        ]);
+      } else {
+        return pick([
+          `strips the ${object} from the ${concept}`,
+          `destroys ${object} in ${concept}`
+        ]);
+      }
     }
   },
   PartOf: {
-    format({ subject, object }) {
-      return useReceivers
-        ? `things ${concept} is a part of`
-        : `part of ${concept}`;
+    format({ subject, object, concept }) {
+      if (!subject && !object) {
+        return;
+      }
+      if (subject) {
+        return pick([
+          `replaces ${subject} in every ${concept}`,
+          `visits ${subject} whenever they are in ${concept}`
+        ]);
+      } else {
+        return pick([
+          `strips the ${concept} from the ${object}`,
+          `acts like ${concept} whenever they are in ${object}`
+        ]);
+      }
     }
   },
   UsedFor: {
-    format({ subject, object }) {
-      return useReceivers ? `uses of ${concept}` : `things used for ${concept}`;
+    format({ subject, object, concept }) {
+      if (!subject && !object) {
+        return;
+      }
+      if (subject) {
+        return pick([
+          `never does ${concept} without ${subject}`,
+          `uses the best ${subject} to ${concept}`
+        ]);
+      } else {
+        return pick([
+          `helps ${concept} ${object}`,
+          `gets new ${concept} every time they ${object}`
+        ]);
+      }
     }
   },
   CausesDesire: {
@@ -184,11 +235,14 @@ var kitsByName = {
 
 var table = probable.createTableFromSizes([
   [2, 'AtLocation'],
-  [2000, 'CapableOf']
+  [2, 'CapableOf'],
+  [2, 'Causes'],
+  [2, 'HasA'],
+  [2, 'PartOf'],
+  [2000, 'UsedFor']
 ]);
 
 module.exports = {
   kitsByName,
   pickRandomRelationship: table.roll
 };
-

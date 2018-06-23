@@ -11,7 +11,7 @@ const maxConceptTries = 5;
 function getSuccessItem(done) {
   var getItem = getBaseFromConcepts;
   if (probable.roll(3) === 0) {
-//    getItem = getRandomWordVerbAndNoun;
+    //    getItem = getRandomWordVerbAndNoun;
   }
   getItem(sb(decorate, done));
 
@@ -21,11 +21,7 @@ function getSuccessItem(done) {
       return;
     }
 
-    var suffix = probable.pickFromArray([
-      'constantly',
-      'daily',
-      'always'
-    ]);
+    var suffix = probable.pickFromArray(['constantly', 'daily', 'always']);
     var decorated = `${baseStatement} ${suffix}`;
     callNextTick(done, null, decorated);
   }
@@ -45,7 +41,13 @@ function getBaseFromConcepts(done) {
       var object = pick(map.receivingConcepts);
       var statement = kit.format({ subject, object, concept: map.concept });
       if (!statement) {
-        console.log(new Error(`Could not format message for relationship ${relationship} and concept ${map.concept}`));
+        console.log(
+          new Error(
+            `Could not format message for relationship ${
+              relationship
+            } and concept ${map.concept}`
+          )
+        );
         console.log('map', map);
 
         if (conceptTries < maxConceptTries) {
@@ -60,4 +62,3 @@ function getBaseFromConcepts(done) {
 }
 
 module.exports = getSuccessItem;
-
