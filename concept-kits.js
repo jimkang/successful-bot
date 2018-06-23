@@ -157,7 +157,9 @@ var kitsByName = {
   HasPrerequisite: {
     format: prerequisiteStyleFormat
   },
-  HasProperty: {},
+  HasProperty: {
+    format: prerequisiteStyleFormat
+  },
   HasSubevent: {
     format: whileStyleFormat
   },
@@ -260,7 +262,8 @@ var table = probable.createTableFromSizes([
   [2, 'HasLastSubevent'],
   [2, 'HasFirstSubevent'],
   [2, 'HasSubevent'],
-  [2000, 'HasPrerequisite']
+  [2, 'HasPrerequisite']
+  [2000, 'InstanceOf']
 ]);
 
 module.exports = {
