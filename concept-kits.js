@@ -134,9 +134,7 @@ var kitsByName = {
       if (subject) {
         return pick([`recognizes that ${concept} is, in truth, ${subject}`]);
       } else {
-        return pick([
-          `sees ${object} as ${concept}`,
-        ]);
+        return pick([`sees ${object} as ${concept}`]);
       }
     }
   },
@@ -150,11 +148,19 @@ var kitsByName = {
   // return useReceivers ? `things that ${concept} entails` : `things entailed in ${concept}`;
   // }
   // }
-  HasFirstSubevent: {},
-  HasLastSubevent: {},
-  HasPrerequisite: {},
+  HasFirstSubevent: {
+    format: sequentialStyleFormat
+  },
+  HasLastSubevent: {
+    format: sequentialStyleFormat
+  },
+  HasPrerequisite: {
+    format: prerequisiteStyleFormat
+  },
   HasProperty: {},
-  HasSubevent: {},
+  HasSubevent: {
+    format: whileStyleFormat
+  },
   InstanceOf: {},
   // IsA: {
   // format({ subject, object }) {
@@ -205,6 +211,41 @@ function causalStyleFormat({ subject, object, concept }) {
     ]);
   }
 }
+function whileStyleFormat({ subject, object, concept }) {
+  if (!subject && !object) {
+    return;
+  }
+  if (subject) {
+    return pick([`does ${concept} when ${subject}`]);
+  } else {
+    return pick([`${object} while they ${concept}`]);
+  }
+}
+
+function sequentialStyleFormat({ subject, object, concept }) {
+  if (!subject && !object) {
+    return;
+  }
+  if (subject) {
+    return pick([`does ${concept} before ${subject}`]);
+  } else {
+    return pick([`remembers to ${object} when they ${concept}`]);
+  }
+}
+
+function prerequisiteStyleFormat({ subject, object, concept }) {
+  if (!subject && !object) {
+    return;
+  }
+  if (subject) {
+    return pick([
+      `puts ${concept} before ${subject}`,
+      `knows you gotta ${concept} to ${subject}`
+    ]);
+  } else {
+    return pick([`understands you can't ${concept} without ${object}`]);
+  }
+}
 
 var table = probable.createTableFromSizes([
   [2, 'AtLocation'],
@@ -215,7 +256,11 @@ var table = probable.createTableFromSizes([
   [2, 'UsedFor'],
   [2, 'CausesDesire'],
   [2, 'CreatedBy'],
-  [2000, 'DefinedAs']
+  [2, 'DefinedAs'],
+  [2, 'HasLastSubevent'],
+  [2, 'HasFirstSubevent'],
+  [2, 'HasSubevent'],
+  [2000, 'HasPrerequisite']
 ]);
 
 module.exports = {

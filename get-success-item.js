@@ -21,7 +21,12 @@ function getSuccessItem(done) {
       return;
     }
 
-    var suffix = probable.pickFromArray(['constantly', 'daily', 'always']);
+    var suffix = probable.pickFromArray([
+      'hourly',
+      'daily',
+      'weekly',
+      'always'
+    ]);
     var decorated = `${baseStatement} ${suffix}`;
     callNextTick(done, null, decorated);
   }
