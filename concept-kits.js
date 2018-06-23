@@ -127,16 +127,15 @@ var kitsByName = {
     }
   },
   DefinedAs: {
-    format({ subject, object, concept }) {
-      if (!subject && !object) {
-        return;
-      }
-      if (subject) {
-        return pick([`recognizes that ${concept} is, in truth, ${subject}`]);
-      } else {
-        return pick([`sees ${object} as ${concept}`]);
-      }
-    }
+    format: identityStyleFormat
+    // format({ subject, object, concept }) {
+    // if (!subject && !object) {
+    // return;
+    // }
+    // if (subject) {
+    // } else {
+    // }
+    // // }
   },
   // DistinctFrom: {
   // format({ subject, object }) {
@@ -158,12 +157,31 @@ var kitsByName = {
     format: prerequisiteStyleFormat
   },
   HasProperty: {
-    format: prerequisiteStyleFormat
+    format: identityStyleFormat
   },
   HasSubevent: {
     format: whileStyleFormat
   },
-  InstanceOf: {},
+  InstanceOf: {
+    format({ subject, object, concept }) {
+      if (!subject && !object) {
+        return;
+      }
+      if (subject) {
+        return pick([
+          `gets the connection between ${subject} and ${concept}`,
+          `sees that ${subject} are ${concept}`,
+          `recognizes that ${subject} is, in truth, ${concept}`
+        ]);
+      } else {
+        return pick([
+          `understands ${concept} is ${object}`,
+          `sees ${concept} as ${object}`,
+          `favors ${concept} among the ${object}`
+        ]);
+      }
+    }
+  },
   // IsA: {
   // format({ subject, object }) {
   // return useReceivers ? `${concept}` : `${concept} things`;
@@ -249,6 +267,25 @@ function prerequisiteStyleFormat({ subject, object, concept }) {
   }
 }
 
+function identityStyleFormat({ subject, object, concept }) {
+  if (!subject && !object) {
+    return;
+  }
+  if (subject) {
+    return pick([
+      `gets the connection between ${concept} and ${subject}`,
+      `sees that ${concept} are ${subject}`,
+      `recognizes that ${subject} is, in truth, ${concept}`
+    ]);
+  } else {
+    return pick([
+      `understands ${concept} is ${object}`,
+      `sees ${object} as ${concept}`,
+      `favors ${concept} among the ${object}`
+    ]);
+  }
+}
+
 var table = probable.createTableFromSizes([
   [2, 'AtLocation'],
   [2, 'CapableOf'],
@@ -262,7 +299,8 @@ var table = probable.createTableFromSizes([
   [2, 'HasLastSubevent'],
   [2, 'HasFirstSubevent'],
   [2, 'HasSubevent'],
-  [2, 'HasPrerequisite']
+  [2, 'HasPrerequisite'],
+  [2, 'HasProperty'],
   [2000, 'InstanceOf']
 ]);
 
