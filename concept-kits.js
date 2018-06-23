@@ -201,12 +201,12 @@ function causalStyleFormat({ subject, object, concept }) {
 var table = probable.createTableFromSizes([
   [2, 'AtLocation'],
   [2, 'CapableOf'],
-  [2000, 'Causes'],
+  [2, 'Causes'],
   [2, 'HasA'],
   [2, 'PartOf'],
   [2, 'UsedFor'],
   [2, 'CausesDesire'],
-  [2, 'CreatedBy']
+  [2000, 'CreatedBy']
 ]);
 
 module.exports = {
