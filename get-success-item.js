@@ -22,9 +22,8 @@ function getSuccessItem(done) {
     }
 
     var suffix = probable.pickFromArray([
-      'hourly',
-      'daily',
-      'weekly',
+      'constantly',
+      'every day',
       'always',
       'religiously'
     ]);
