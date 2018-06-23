@@ -35,22 +35,7 @@ var kitsByName = {
     }
   },
   Causes: {
-    format({ subject, object, concept }) {
-      if (!subject && !object) {
-        return;
-      }
-      if (subject) {
-        return pick([
-          `understands that ${concept} comes from ${subject}`,
-          `${subject} to get ${concept}`
-        ]);
-      } else {
-        return pick([
-          `understands that ${object} comes from ${concept}`,
-          `gets ${object} via ${concept}`
-        ]);
-      }
-    }
+    format: causalStyleFormat
   },
   HasA: {
     format({ subject, object, concept }) {
@@ -127,27 +112,26 @@ var kitsByName = {
     }
   },
   CreatedBy: {
-    format({ subject, object, concept }) {
-      if (!subject && !object) {
-        return;
-      }
-      if (subject) {
-        return pick([
-          `want to ${concept}`,
-          `${concept} to deal with their ${subject}`
-        ]);
-      } else {
-        return pick([
-          `${object} because ${concept}`,
-          `${object}`,
-          `experience ${concept}, then ${object}`
-        ]);
-      }
-    }
+    format: causalStyleFormat
+    // format({ subject, object, concept }) {
+    // if (!subject && !object) {
+    // return;
+    // }
+    // if (subject) {
+    // return pick([
+    // `want to ${concept}`,
+    // `${concept} to deal with their ${subject}`
+    // ]);
+    // } else {
+    // return pick([
+    // `${object} because ${concept}`,
+    // `${object}`,
+    // `experience ${concept}, then ${object}`
+    // ]);
+    // }
+    // }
   },
-  DefinedAs: {
-
-  },
+  DefinedAs: {},
   // DistinctFrom: {
   // format({ subject, object }) {
   // return useReceivers ? `things distinct from ${concept}` : `huh ${concept}`;
@@ -158,33 +142,25 @@ var kitsByName = {
   // return useReceivers ? `things that ${concept} entails` : `things entailed in ${concept}`;
   // }
   // }
-  HasFirstSubevent: {
-  },
-  HasLastSubevent: {
-  },
-  HasPrerequisite: {
-  },
-  HasProperty:  }
-  },
-  HasSubevent: {
-  },
-  InstanceOf: {
-  },
+  HasFirstSubevent: {},
+  HasLastSubevent: {},
+  HasPrerequisite: {},
+  HasProperty: {},
+  HasSubevent: {},
+  InstanceOf: {},
   // IsA: {
   // format({ subject, object }) {
   // return useReceivers ? `${concept}` : `${concept} things`;
   // }
   // }
-  MadeOf: {
-  },
+  MadeOf: {},
   // MannerOf: {
   // format({ subject, object }) {
   // return useReceivers ? `way to ${concept}` : `things is a way to ${concept}`;
   // }
   // }
-  MotivatedByGoal: {
-  },
-// NotCapableOf: {
+  MotivatedByGoal: {},
+  // NotCapableOf: {
   // format({ subject, object }) {
   // return useReceivers ? `things that ${concept} can't do` : `things that can't ${concept}`;
   // }
@@ -202,18 +178,35 @@ var kitsByName = {
   // return useReceivers ? `genres ${concept} is in` : `things in the ${concept} genre`;
   // }
   // },
-  dbpedia_influencedBy: {
-  }
+  dbpedia_influencedBy: {}
 };
+
+function causalStyleFormat({ subject, object, concept }) {
+  if (!subject && !object) {
+    return;
+  }
+  if (subject) {
+    return pick([
+      `understands that ${concept} comes from ${subject}`,
+      `${subject} to get ${concept}`
+    ]);
+  } else {
+    return pick([
+      `${concept} in order to ${object}`,
+      `gets ${object} via ${concept}`
+    ]);
+  }
+}
 
 var table = probable.createTableFromSizes([
   [2, 'AtLocation'],
   [2, 'CapableOf'],
-  [2, 'Causes'],
+  [2000, 'Causes'],
   [2, 'HasA'],
   [2, 'PartOf'],
   [2, 'UsedFor'],
-  [2000, 'CausesDesire']
+  [2, 'CausesDesire'],
+  [2, 'CreatedBy']
 ]);
 
 module.exports = {
