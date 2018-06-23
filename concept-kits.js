@@ -5,7 +5,7 @@ var kitsByName = {
   AtLocation: {
     format({ subject, object, concept }) {
       if (!subject || !object) {
-        return `love ${concept}`;
+        return formatSingleConcept(concept);
       }
       return pick([
         `takes ${subject} to ${object}`,
@@ -19,7 +19,7 @@ var kitsByName = {
   CapableOf: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return `love ${concept}`;
+        return formatSingleConcept(concept);
       }
       if (subject) {
         return pick([
@@ -40,7 +40,7 @@ var kitsByName = {
   HasA: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return `love ${concept}`;
+        return formatSingleConcept(concept);
       }
       if (subject) {
         return pick([
@@ -61,7 +61,7 @@ var kitsByName = {
   PartOf: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return `love ${concept}`;
+        return formatSingleConcept(concept);
       }
       if (subject) {
         return pick([
@@ -79,7 +79,7 @@ var kitsByName = {
   UsedFor: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return `love ${concept}`;
+        return formatSingleConcept(concept);
       }
       if (subject) {
         return pick([
@@ -88,7 +88,7 @@ var kitsByName = {
         ]);
       } else {
         return pick([
-          `helps ${concept} ${object}`,
+          `helps ${concept} with ${object}`,
           `gets new ${concept} every time they ${object}`
         ]);
       }
@@ -97,7 +97,7 @@ var kitsByName = {
   CausesDesire: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return `love ${concept}`;
+        return formatSingleConcept(concept);
       }
       if (subject) {
         return pick([
@@ -117,7 +117,7 @@ var kitsByName = {
   CreatedBy: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return `love ${concept}`;
+        return formatSingleConcept(concept);
       }
       if (subject) {
         return pick([`supports ${concept} to grow the ${subject} community`]);
@@ -133,7 +133,7 @@ var kitsByName = {
     format: identityStyleFormat
     // format({ subject, object, concept }) {
     // if (!subject && !object) {
-    // return `love ${concept}`;
+    // return formatSingleConcept(concept);
     // }
     // if (subject) {
     // } else {
@@ -168,16 +168,23 @@ var kitsByName = {
   InstanceOf: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return `love ${concept}`;
+        return formatSingleConcept(concept);
       }
       if (subject) {
         return pick([
           `gets the connection between ${subject} and ${concept}`,
-          `recognizes that ${subject} is, in truth, ${concept}`
+          `recognizes that ${subject} is, in ${pick([
+            'truth',
+            'fact',
+            'actuality',
+            'reality',
+            'essence'
+          ])}, ${concept}`
         ]);
       } else {
         return pick([
           `understands ${concept} is ${object}`,
+          `denies that ${concept} is ${object}`,
           `sees ${object} as ${concept}`,
           `favors ${concept} among the ${object}`
         ]);
@@ -198,7 +205,7 @@ var kitsByName = {
   MotivatedByGoal: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return `love ${concept}`;
+        return formatSingleConcept(concept);
       }
       if (subject) {
         return pick([
@@ -207,7 +214,7 @@ var kitsByName = {
           subject
         ]);
       } else {
-        return pick([`does ${concept} to ${object}`, concept, object]);
+        return pick([`does ${concept} to ${object}`, object]);
       }
     }
   },
@@ -238,7 +245,7 @@ var kitsByName = {
 
 function causalStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return `love ${concept}`;
+    return formatSingleConcept(concept);
   }
   if (subject) {
     return pick([
@@ -254,7 +261,7 @@ function causalStyleFormat({ subject, object, concept }) {
 }
 function whileStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return `love ${concept}`;
+    return formatSingleConcept(concept);
   }
   if (subject) {
     return pick([`${concept} when ${subject}`]);
@@ -265,18 +272,18 @@ function whileStyleFormat({ subject, object, concept }) {
 
 function sequentialStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return `love ${concept}`;
+    return formatSingleConcept(concept);
   }
   if (subject) {
     return pick([`does ${subject} before ${concept}`]);
   } else {
-    return pick([`remembers to ${object} when they ${concept}`, concept]);
+    return pick([`remembers to ${object} when they ${concept}`]);
   }
 }
 
 function prerequisiteStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return `love ${concept}`;
+    return formatSingleConcept(concept);
   }
   if (subject) {
     return pick([
@@ -290,7 +297,7 @@ function prerequisiteStyleFormat({ subject, object, concept }) {
 
 function identityStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return `love ${concept}`;
+    return formatSingleConcept(concept);
   }
   if (subject) {
     return pick([
@@ -307,6 +314,15 @@ function identityStyleFormat({ subject, object, concept }) {
   }
 }
 
+function formatSingleConcept(concept) {
+  return `${pick([
+    'love',
+    'are innately attuned to',
+    'believe in',
+    'demand excellence in'
+  ])} ${concept}`;
+}
+
 var table = probable.createTableFromSizes([
   [6, 'AtLocation'],
   [3, 'CapableOf'],
@@ -315,7 +331,7 @@ var table = probable.createTableFromSizes([
   [3, 'PartOf'],
   [3, 'UsedFor'],
   [3, 'CausesDesire'],
-  [6, 'CreatedBy'],
+  [9, 'CreatedBy'],
   [1, 'DefinedAs'],
   [3, 'HasLastSubevent'],
   [3, 'HasFirstSubevent'],
