@@ -5,7 +5,7 @@ var kitsByName = {
   AtLocation: {
     format({ subject, object, concept }) {
       if (!subject || !object) {
-        return concept;
+        return `love ${concept}`;
       }
       return pick([
         `takes ${subject} to ${object}`,
@@ -19,7 +19,7 @@ var kitsByName = {
   CapableOf: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return concept;
+        return `love ${concept}`;
       }
       if (subject) {
         return pick([
@@ -40,7 +40,7 @@ var kitsByName = {
   HasA: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return concept;
+        return `love ${concept}`;
       }
       if (subject) {
         return pick([
@@ -51,7 +51,9 @@ var kitsByName = {
       } else {
         return pick([
           `strips the ${object} from the ${concept}`,
-          `destroys ${object} in ${concept}`
+          `${pick(['destroys', 'eliminates', 'crushes'])} ${object} in ${
+            concept
+          }`
         ]);
       }
     }
@@ -59,7 +61,7 @@ var kitsByName = {
   PartOf: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return concept;
+        return `love ${concept}`;
       }
       if (subject) {
         return pick([
@@ -77,12 +79,12 @@ var kitsByName = {
   UsedFor: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return concept;
+        return `love ${concept}`;
       }
       if (subject) {
         return pick([
           `never does ${concept} without ${subject}`,
-          `uses the best ${subject} to ${concept}`
+          `uses ${subject} to ${concept}`
         ]);
       } else {
         return pick([
@@ -95,17 +97,19 @@ var kitsByName = {
   CausesDesire: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return concept;
+        return `love ${concept}`;
       }
       if (subject) {
         return pick([
           `want to ${concept}`,
-          `${concept} to deal with their ${subject}`
+          `${concept} to deal with their ${subject}`,
+          `respects both ${subject} and ${concept}`
         ]);
       } else {
         return pick([
           `${object} because ${concept}`,
-          `experience ${concept}, then ${object}`
+          `experience ${concept}, then ${object}`,
+          `respects both ${object} and ${concept}`
         ]);
       }
     }
@@ -113,7 +117,7 @@ var kitsByName = {
   CreatedBy: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return concept;
+        return `love ${concept}`;
       }
       if (subject) {
         return pick([`supports ${concept} to grow the ${subject} community`]);
@@ -129,7 +133,7 @@ var kitsByName = {
     format: identityStyleFormat
     // format({ subject, object, concept }) {
     // if (!subject && !object) {
-    // return concept;
+    // return `love ${concept}`;
     // }
     // if (subject) {
     // } else {
@@ -164,7 +168,7 @@ var kitsByName = {
   InstanceOf: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return concept;
+        return `love ${concept}`;
       }
       if (subject) {
         return pick([
@@ -174,7 +178,7 @@ var kitsByName = {
       } else {
         return pick([
           `understands ${concept} is ${object}`,
-          `sees ${concept} as ${object}`,
+          `sees ${object} as ${concept}`,
           `favors ${concept} among the ${object}`
         ]);
       }
@@ -194,7 +198,7 @@ var kitsByName = {
   MotivatedByGoal: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return concept;
+        return `love ${concept}`;
       }
       if (subject) {
         return pick([
@@ -227,14 +231,14 @@ var kitsByName = {
   // },
   dbpedia_influencedBy: {
     format({ concept }) {
-      return `${ pick(['worship', 'are influenced by', 'respect']) } ${concept}`;
+      return `${pick(['worship', 'are influenced by', 'respect'])} ${concept}`;
     }
   }
 };
 
 function causalStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return concept;
+    return `love ${concept}`;
   }
   if (subject) {
     return pick([
@@ -250,7 +254,7 @@ function causalStyleFormat({ subject, object, concept }) {
 }
 function whileStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return concept;
+    return `love ${concept}`;
   }
   if (subject) {
     return pick([`${concept} when ${subject}`]);
@@ -261,10 +265,10 @@ function whileStyleFormat({ subject, object, concept }) {
 
 function sequentialStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return concept;
+    return `love ${concept}`;
   }
   if (subject) {
-    return pick([`does ${concept} before ${subject}`, concept]);
+    return pick([`does ${subject} before ${concept}`]);
   } else {
     return pick([`remembers to ${object} when they ${concept}`, concept]);
   }
@@ -272,12 +276,12 @@ function sequentialStyleFormat({ subject, object, concept }) {
 
 function prerequisiteStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return concept;
+    return `love ${concept}`;
   }
   if (subject) {
     return pick([
       `puts ${concept} before ${subject}`,
-      `knows you gotta ${concept} to ${subject}`
+      `${concept}, ${subject}`
     ]);
   } else {
     return pick([`understands you can't ${concept} without ${object}`]);
@@ -286,7 +290,7 @@ function prerequisiteStyleFormat({ subject, object, concept }) {
 
 function identityStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return concept;
+    return `love ${concept}`;
   }
   if (subject) {
     return pick([
@@ -304,24 +308,24 @@ function identityStyleFormat({ subject, object, concept }) {
 }
 
 var table = probable.createTableFromSizes([
-  [2, 'AtLocation'],
-  [2, 'CapableOf'],
-  [2, 'Causes'],
-  [2, 'HasA'],
-  [2, 'PartOf'],
-  [2, 'UsedFor'],
-  [2, 'CausesDesire'],
-  [2, 'CreatedBy'],
+  [6, 'AtLocation'],
+  [3, 'CapableOf'],
+  [3, 'Causes'],
+  [10, 'HasA'],
+  [3, 'PartOf'],
+  [3, 'UsedFor'],
+  [3, 'CausesDesire'],
+  [6, 'CreatedBy'],
   [1, 'DefinedAs'],
-  [2, 'HasLastSubevent'],
-  [2, 'HasFirstSubevent'],
-  [2, 'HasSubevent'],
-  [2, 'HasPrerequisite'],
-  [2, 'HasProperty'],
-  [1, 'InstanceOf'],
+  [3, 'HasLastSubevent'],
+  [3, 'HasFirstSubevent'],
+  [3, 'HasSubevent'],
+  [1, 'HasPrerequisite'],
+  [3, 'HasProperty'],
+  [3, 'InstanceOf'],
   [1, 'MadeOf'],
-  [2, 'MotivatedByGoal'],
-  [2, 'dbpedia_influencedBy']
+  [3, 'MotivatedByGoal'],
+  [3, 'dbpedia_influencedBy']
 ]);
 
 module.exports = {
