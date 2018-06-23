@@ -112,24 +112,19 @@ var kitsByName = {
     }
   },
   CreatedBy: {
-    format: causalStyleFormat
-    // format({ subject, object, concept }) {
-    // if (!subject && !object) {
-    // return;
-    // }
-    // if (subject) {
-    // return pick([
-    // `want to ${concept}`,
-    // `${concept} to deal with their ${subject}`
-    // ]);
-    // } else {
-    // return pick([
-    // `${object} because ${concept}`,
-    // `${object}`,
-    // `experience ${concept}, then ${object}`
-    // ]);
-    // }
-    // }
+    format({ subject, object, concept }) {
+      if (!subject && !object) {
+        return;
+      }
+      if (subject) {
+        return pick([`supports ${concept} to grow the ${subject} community`]);
+      } else {
+        return pick([
+          `hires ${object} to make ${concept}`,
+          `respects both ${object} and ${concept}`
+        ]);
+      }
+    }
   },
   DefinedAs: {},
   // DistinctFrom: {
