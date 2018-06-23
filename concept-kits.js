@@ -126,7 +126,20 @@ var kitsByName = {
       }
     }
   },
-  DefinedAs: {},
+  DefinedAs: {
+    format({ subject, object, concept }) {
+      if (!subject && !object) {
+        return;
+      }
+      if (subject) {
+        return pick([`recognizes that ${concept} is, in truth, ${subject}`]);
+      } else {
+        return pick([
+          `sees ${object} as ${concept}`,
+        ]);
+      }
+    }
+  },
   // DistinctFrom: {
   // format({ subject, object }) {
   // return useReceivers ? `things distinct from ${concept}` : `huh ${concept}`;
@@ -201,7 +214,8 @@ var table = probable.createTableFromSizes([
   [2, 'PartOf'],
   [2, 'UsedFor'],
   [2, 'CausesDesire'],
-  [2000, 'CreatedBy']
+  [2, 'CreatedBy'],
+  [2000, 'DefinedAs']
 ]);
 
 module.exports = {
