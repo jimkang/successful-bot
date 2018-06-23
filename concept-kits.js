@@ -127,18 +127,26 @@ var kitsByName = {
     }
   },
   CreatedBy: {
-    format({ subject, object }) {
-      return useReceivers
-        ? `creators of ${concept}`
-        : `creations of ${concept}`;
+    format({ subject, object, concept }) {
+      if (!subject && !object) {
+        return;
+      }
+      if (subject) {
+        return pick([
+          `want to ${concept}`,
+          `${concept} to deal with their ${subject}`
+        ]);
+      } else {
+        return pick([
+          `${object} because ${concept}`,
+          `${object}`,
+          `experience ${concept}, then ${object}`
+        ]);
+      }
     }
   },
   DefinedAs: {
-    format({ subject, object }) {
-      return useReceivers
-        ? `definitions of ${concept}`
-        : `things defined as ${concept}`;
-    }
+
   },
   // DistinctFrom: {
   // format({ subject, object }) {
@@ -151,47 +159,16 @@ var kitsByName = {
   // }
   // }
   HasFirstSubevent: {
-    format({ subject, object }) {
-      return useReceivers
-        ? `first steps of ${concept}`
-        : `things that ${concept} is a first step of`;
-    }
   },
   HasLastSubevent: {
-    disallowUseEmitters: true, // Only works in the `concept =relation=> receivers` direction
-    format({ subject, object }) {
-      return useReceivers
-        ? `final steps of ${concept}`
-        : `things that ${concept} is the final step of`;
-    }
   },
   HasPrerequisite: {
-    disallowUseEmitters: true,
-    format({ subject, object }) {
-      return useReceivers
-        ? `prerequisites of ${concept}`
-        : `things that ${concept} is a prerequisite for`;
-    }
   },
-  HasProperty: {
-    format({ subject, object }) {
-      return useReceivers ? `properties of ${concept}` : `${concept} things`;
-    }
+  HasProperty:  }
   },
   HasSubevent: {
-    disallowUseEmitters: true,
-    format({ subject, object }) {
-      return useReceivers
-        ? `steps of ${concept}`
-        : `things that ${concept} is a step of`;
-    }
   },
   InstanceOf: {
-    format({ subject, object }) {
-      return useReceivers
-        ? `classifications of ${concept}`
-        : `instances of ${concept}`;
-    }
   },
   // IsA: {
   // format({ subject, object }) {
@@ -199,11 +176,6 @@ var kitsByName = {
   // }
   // }
   MadeOf: {
-    format({ subject, object }) {
-      return useReceivers
-        ? `${concept} materials`
-        : `things made of ${concept}`;
-    }
   },
   // MannerOf: {
   // format({ subject, object }) {
@@ -211,14 +183,8 @@ var kitsByName = {
   // }
   // }
   MotivatedByGoal: {
-    disallowUseEmitters: true,
-    format({ subject, object }) {
-      return useReceivers
-        ? `motivations of ${concept}`
-        : `things motivated by ${concept}`;
-    }
   },
-  // NotCapableOf: {
+// NotCapableOf: {
   // format({ subject, object }) {
   // return useReceivers ? `things that ${concept} can't do` : `things that can't ${concept}`;
   // }
@@ -237,11 +203,6 @@ var kitsByName = {
   // }
   // },
   dbpedia_influencedBy: {
-    format({ subject, object }) {
-      return useReceivers
-        ? `influences of ${concept}`
-        : `things influenced by ${concept}`;
-    }
   }
 };
 
