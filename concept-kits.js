@@ -3,9 +3,9 @@ var pick = probable.pickFromArray;
 
 var kitsByName = {
   AtLocation: {
-    format({ subject, object }) {
+    format({ subject, object, concept }) {
       if (!subject || !object) {
-        return;
+        return concept;
       }
       return pick([
         `takes ${subject} to ${object}`,
@@ -19,7 +19,7 @@ var kitsByName = {
   CapableOf: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return;
+        return concept;
       }
       if (subject) {
         return pick([
@@ -40,7 +40,7 @@ var kitsByName = {
   HasA: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return;
+        return concept;
       }
       if (subject) {
         return pick([
@@ -59,7 +59,7 @@ var kitsByName = {
   PartOf: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return;
+        return concept;
       }
       if (subject) {
         return pick([
@@ -77,7 +77,7 @@ var kitsByName = {
   UsedFor: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return;
+        return concept;
       }
       if (subject) {
         return pick([
@@ -95,7 +95,7 @@ var kitsByName = {
   CausesDesire: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return;
+        return concept;
       }
       if (subject) {
         return pick([
@@ -114,7 +114,7 @@ var kitsByName = {
   CreatedBy: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return;
+        return concept;
       }
       if (subject) {
         return pick([`supports ${concept} to grow the ${subject} community`]);
@@ -130,7 +130,7 @@ var kitsByName = {
     format: identityStyleFormat
     // format({ subject, object, concept }) {
     // if (!subject && !object) {
-    // return;
+    // return concept;
     // }
     // if (subject) {
     // } else {
@@ -165,12 +165,11 @@ var kitsByName = {
   InstanceOf: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return;
+        return concept;
       }
       if (subject) {
         return pick([
           `gets the connection between ${subject} and ${concept}`,
-          `sees that ${subject} are ${concept}`,
           `recognizes that ${subject} is, in truth, ${concept}`
         ]);
       } else {
@@ -196,7 +195,7 @@ var kitsByName = {
   MotivatedByGoal: {
     format({ subject, object, concept }) {
       if (!subject && !object) {
-        return;
+        return concept;
       }
       if (subject) {
         return pick([
@@ -232,7 +231,7 @@ var kitsByName = {
 
 function causalStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return;
+    return concept;
   }
   if (subject) {
     return pick([
@@ -248,18 +247,18 @@ function causalStyleFormat({ subject, object, concept }) {
 }
 function whileStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return;
+    return concept;
   }
   if (subject) {
     return pick([`does ${concept} when ${subject}`]);
   } else {
-    return pick([`${object} while they ${concept}`]);
+    return pick([`${object} while ${concept}`]);
   }
 }
 
 function sequentialStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return;
+    return concept;
   }
   if (subject) {
     return pick([`does ${concept} before ${subject}`]);
@@ -270,7 +269,7 @@ function sequentialStyleFormat({ subject, object, concept }) {
 
 function prerequisiteStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return;
+    return concept;
   }
   if (subject) {
     return pick([
@@ -284,7 +283,7 @@ function prerequisiteStyleFormat({ subject, object, concept }) {
 
 function identityStyleFormat({ subject, object, concept }) {
   if (!subject && !object) {
-    return;
+    return concept;
   }
   if (subject) {
     return pick([
@@ -318,7 +317,7 @@ var table = probable.createTableFromSizes([
   [2, 'HasProperty'],
   [2, 'InstanceOf'],
   [2, 'MadeOf'],
-  [2000, 'MotivatedByGoal']
+  [2, 'MotivatedByGoal']
 ]);
 
 module.exports = {

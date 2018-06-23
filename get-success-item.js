@@ -25,7 +25,8 @@ function getSuccessItem(done) {
       'hourly',
       'daily',
       'weekly',
-      'always'
+      'always',
+      'religiously'
     ]);
     var decorated = `${baseStatement} ${suffix}`;
     callNextTick(done, null, decorated);
