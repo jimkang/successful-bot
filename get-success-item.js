@@ -5,8 +5,10 @@ var pick = probable.pickFromArray;
 var conceptCache = require('conceptnet-relationship-cache');
 var conceptKits = require('./concept-kits');
 var callNextTick = require('call-next-tick');
+var splitToWords = require('split-to-words');
 
 const maxConceptTries = 5;
+var prepositions = ['to', 'for', 'with', 'against', 'by'];
 
 function getSuccessItem(done) {
   var getItem = getBaseFromConcepts;
@@ -46,9 +48,16 @@ function getBaseFromConcepts(done) {
     conceptCache.getRandomMap({ relationship }, sb(useMap, done));
 
     function useMap(map) {
-      var subject = pick(map.emittingConcepts);
-      var object = pick(map.receivingConcepts);
-      var statement = kit.format({ subject, object, concept: map.concept });
+      var statement;
+      var subject;
+      var object;
+      var concept = map.concept;
+
+      if (doesNotEndInPreposition(concept)) {
+        subject = pick(map.emittingConcepts.filter(doesNotEndInPreposition));
+        object = pick(map.receivingConcepts.filter(doesNotEndInPreposition));
+        statement = kit.format({ subject, object, concept: map.concept });
+      }
       if (!statement) {
         console.log(
           new Error(
@@ -67,6 +76,13 @@ function getBaseFromConcepts(done) {
       }
       done(null, statement);
     }
+  }
+}
+
+function doesNotEndInPreposition(phrase) {
+  var words = splitToWords(phrase);
+  if (words.length > 0) {
+    return prepositions.indexOf(words[0].toLowerCase()) === -1;
   }
 }
 
