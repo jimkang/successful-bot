@@ -33,7 +33,7 @@ function attemptAPost() {
 attemptAPost();
 
 function rollListSize(done) {
-  callNextTick(done, null, 5 + probable.roll(6) + probable.roll(6));
+  callNextTick(done, null, 3 + probable.roll(4) + probable.roll(5));
 }
 
 function getListItems(numberOfItems, done) {

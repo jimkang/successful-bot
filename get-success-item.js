@@ -1,4 +1,3 @@
-var request = require('request');
 var sb = require('standard-bail')();
 var probable = require('probable');
 var pick = probable.pickFromArray;
@@ -6,14 +5,15 @@ var conceptCache = require('conceptnet-relationship-cache');
 var conceptKits = require('./concept-kits');
 var callNextTick = require('call-next-tick');
 var splitToWords = require('split-to-words');
+var getRandomVerbAndNoun = require('./get-random-verb-and-noun');
 
 const maxConceptTries = 5;
 var prepositions = ['to', 'for', 'with', 'against', 'by', 'from', 'when'];
 
 function getSuccessItem(done) {
   var getItem = getBaseFromConcepts;
-  if (probable.roll(3) === 0) {
-    //    getItem = getRandomWordVerbAndNoun;
+  if (probable.roll(5) === 0) {
+    getItem = getRandomVerbAndNoun;
   }
   getItem(sb(decorate, done));
 
