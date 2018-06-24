@@ -8,7 +8,7 @@ var callNextTick = require('call-next-tick');
 var splitToWords = require('split-to-words');
 
 const maxConceptTries = 5;
-var prepositions = ['to', 'for', 'with', 'against', 'by', 'from'];
+var prepositions = ['to', 'for', 'with', 'against', 'by', 'from', 'when'];
 
 function getSuccessItem(done) {
   var getItem = getBaseFromConcepts;

@@ -23,13 +23,17 @@ var kitsByName = {
       }
       if (subject) {
         return pick([
-          `${pick(['know', 'remember', 'acknowledge'])} that ${subject} can ${concept}`,
+          `${pick(['know', 'remember', 'acknowledge'])} that ${subject} can ${
+            concept
+          }`,
           `use ${subject} to ${concept}`
         ]);
       } else {
         return pick([
-          `${pick(['know', 'remember', 'acknowledge'])} that ${concept} can ${object}`,
-          `use ${object} to ${concept}`
+          `${pick(['know', 'remember', 'acknowledge'])} that ${concept} can ${
+            object
+          }`,
+          `use ${concept} to ${object}`
         ]);
       }
     }
@@ -319,7 +323,7 @@ function formatSingleConcept(concept) {
 
 var table = probable.createTableFromSizes([
   [8, 'AtLocation'],
-  [3, 'CapableOf'],
+  [5, 'CapableOf'],
   [3, 'Causes'],
   [10, 'HasA'],
   [3, 'PartOf'],
