@@ -4,15 +4,33 @@ var pick = probable.pickFromArray;
 var kitsByName = {
   AtLocation: {
     format({ subject, object, concept }) {
-      if (!subject || !object) {
+      if (!subject && !object) {
         return formatSingleConcept(concept);
       }
+      if (subject && concept && object) {
+        return pick[
+          (`takes ${subject} to ${concept} and ${concept} to ${object}`,
+          `takes ${object} to ${concept} and ${concept} to ${subject}`)
+        ];
+      }
+      var inner;
+      var outer;
+      if (subject) {
+        inner = subject;
+        outer = concept;
+      } else if (object) {
+        inner = concept;
+        outer = object;
+      }
+
       return pick([
-        `takes ${subject} to ${object}`,
-        `finds ${subject} at ${object}`,
-        `puts ${subject} in ${object}`,
-        `gets ${subject} from ${object}`,
-        `visits ${subject} at ${object}`
+        `finds ${inner} at ${outer}`,
+        `puts ${inner} in ${outer}`,
+        `extracts ${inner} from ${outer}`,
+        `destroys ${inner} in ${outer}`,
+        `filters ${inner} out of ${outer}`,
+        `eats around to ${inner} in ${outer}`,
+        `visits ${inner} at ${outer}`
       ]);
     }
   },
@@ -55,6 +73,8 @@ var kitsByName = {
       } else {
         return pick([
           `treasure the ${object} from ${concept}`,
+          `revere the ${object} from ${concept}`,
+          `exalt the ${object} from ${concept}`,
           `${pick(['destroy', 'smash', 'crush'])} ${object} in ${concept}`
         ]);
       }
@@ -175,7 +195,7 @@ var kitsByName = {
       }
       if (subject) {
         return pick([
-          `get the connection between ${subject} and ${concept}`,
+          `get the Connection between ${subject} and ${concept}`,
           `recognize that ${subject} is, in ${pick([
             'truth',
             'fact',
@@ -322,24 +342,24 @@ function formatSingleConcept(concept) {
 }
 
 var table = probable.createTableFromSizes([
-  [8, 'AtLocation'],
-  [5, 'CapableOf'],
-  [3, 'Causes'],
-  [10, 'HasA'],
-  [3, 'PartOf'],
-  [3, 'UsedFor'],
-  [3, 'CausesDesire'],
-  [9, 'CreatedBy'],
-  [1, 'DefinedAs'],
-  [3, 'HasLastSubevent'],
-  [3, 'HasFirstSubevent'],
-  [3, 'HasSubevent'],
-  [1, 'HasPrerequisite'],
-  [3, 'HasProperty'],
-  [3, 'InstanceOf'],
-  [1, 'MadeOf'],
-  [3, 'MotivatedByGoal'],
-  [3, 'dbpedia_influencedBy']
+  [8, 'AtLocation']
+  // [5, 'CapableOf'],
+  // [3, 'Causes'],
+  // [12, 'HasA'],
+  // [3, 'PartOf'],
+  // [6, 'UsedFor'],
+  // [3, 'CausesDesire'],
+  // [9, 'CreatedBy'],
+  // [1, 'DefinedAs'],
+  // [3, 'HasLastSubevent'],
+  // [3, 'HasFirstSubevent'],
+  // [3, 'HasSubevent'],
+  // [1, 'HasPrerequisite'],
+  // [3, 'HasProperty'],
+  // [3, 'InstanceOf'],
+  // [1, 'MadeOf'],
+  // [3, 'MotivatedByGoal'],
+  // [3, 'dbpedia_influencedBy']
 ]);
 
 module.exports = {

@@ -10,6 +10,7 @@ var request = require('request');
 var iscool = require('iscool')();
 var sb = require('standard-bail')();
 var probable = require('probable');
+var canonicalizer = require('canonicalizer');
 
 function getRandomVerbAndNoun(getDone) {
   waterfall(
@@ -65,7 +66,8 @@ function getNoun(verb, done) {
   wordnok.getTopic(sb(addNoun, done));
 
   function addNoun(topic) {
-    done(null, verb + ' ' + topic);
+    var pluralNoun = canonicalizer.getSingularAndPluralForms(topic)[1];
+    done(null, verb + ' ' + pluralNoun);
   }
 }
 

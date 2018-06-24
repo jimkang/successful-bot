@@ -12,7 +12,7 @@ var prepositions = ['to', 'for', 'with', 'against', 'by', 'from', 'when'];
 
 function getSuccessItem(done) {
   var getItem = getBaseFromConcepts;
-  if (probable.roll(5) === 0) {
+  if (probable.roll(100) === 0) {
     getItem = getRandomVerbAndNoun;
   }
   getItem(sb(decorate, done));
@@ -30,7 +30,7 @@ function getSuccessItem(done) {
       'religiously'
     ]);
     var decorated = baseStatement;
-    if (probable.roll(3) === 0) {
+    if (probable.roll(5) === 0) {
       decorated = `${decorated} ${suffix}`;
     }
     decorated = decorated.charAt(0).toUpperCase() + decorated.slice(1);
