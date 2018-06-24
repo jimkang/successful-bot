@@ -212,7 +212,7 @@ var kitsByName = {
           `${subject} to bring about ${concept}`
         ]);
       } else {
-        return pick([`does ${concept} to ${object}`]);
+        return pick([`${concept} to ${object}`]);
       }
     }
   },
