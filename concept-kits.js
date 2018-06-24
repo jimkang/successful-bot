@@ -23,12 +23,12 @@ var kitsByName = {
       }
       if (subject) {
         return pick([
-          `know that ${subject} can ${concept}`,
+          `${pick(['know', 'remember', 'acknowledge'])} that ${subject} can ${concept}`,
           `use ${subject} to ${concept}`
         ]);
       } else {
         return pick([
-          `know that ${concept} can ${object}`,
+          `${pick(['know', 'remember', 'acknowledge'])} that ${concept} can ${object}`,
           `use ${object} to ${concept}`
         ]);
       }
@@ -100,7 +100,7 @@ var kitsByName = {
       if (subject) {
         return pick([
           `want to ${concept}`,
-          `${concept} to deal with their ${subject}`,
+          `${concept} to deal with ${subject}`,
           `respect both ${subject} *and* ${concept}`
         ]);
       } else {
