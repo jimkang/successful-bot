@@ -29,7 +29,7 @@ var kitsByName = {
       } else {
         return pick([
           `know that ${concept} can ${object}`,
-          `use ${concept} to ${object}`
+          `use ${object} to ${concept}`
         ]);
       }
     }
