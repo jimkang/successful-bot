@@ -29,8 +29,9 @@ function getSuccessItem(done) {
     ]);
     var decorated = baseStatement;
     if (probable.roll(3) === 0) {
-      decorated = `${baseStatement} ${suffix}`;
+      decorated = `${decorated} ${suffix}`;
     }
+    decorated = decorated.charAt(0).toUpperCase() + decorated.slice(1);
     callNextTick(done, null, decorated);
   }
 }
