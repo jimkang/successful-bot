@@ -19,8 +19,9 @@ var wordnok = Wordnok({
 });
 var sb = require('standard-bail')();
 var canonicalizer = require('canonicalizer');
+var minimist = require('minimist');
 
-var dryRun = process.argv.length > 2 ? process.argv[2] === '--dry' : false;
+var { dry, rel } = minimist(process.argv.slice(2));
 
 var staticWebStream = StaticWebArchiveOnGit({
   config: config.github,
@@ -49,7 +50,7 @@ function rollListSize(done) {
 }
 
 function getActor(numberOfItems, done) {
-  if (probable.roll(5) === 0 || true) {
+  if (probable.roll(100) === 0) {
     wordnok.getTopic(sb(passActor, done));
   } else {
     callNextTick(done, null, { actor: 'people', numberOfItems });
@@ -65,10 +66,10 @@ function getListItems({ actor, numberOfItems }, done) {
   var successItemOpts = {
     method: 'relationship'
   };
-  if (probable.roll(20) === 0) {
+  if (probable.roll(100) === 0) {
     successItemOpts.method = 'randomVerbAndNoun';
   } else {
-    if (actor !== 'people' || probable.roll(5) === 0 || true) {
+    if (actor !== 'people' || probable.roll(5) === 0) {
       successItemOpts.method = 'actorWithRandomConcept';
     }
     successItemOpts.relationshipTable = probable.createTableFromSizes([
@@ -76,6 +77,11 @@ function getListItems({ actor, numberOfItems }, done) {
       [2, conceptKits.pickRandomRelationship()],
       [1, conceptKits.pickRandomRelationship()]
     ]);
+    if (rel) {
+      successItemOpts.relationshipTable = probable.createTableFromSizes([
+        [1, rel]
+      ]);
+    }
   }
   var q = queue();
   for (var i = 0; i < numberOfItems; ++i) {
@@ -98,7 +104,7 @@ ${compact(successItems)
 }
 
 function postToTargets(text, done) {
-  if (dryRun) {
+  if (dry) {
     console.log('Would have posted:', text);
     callNextTick(done);
   } else {

@@ -25,12 +25,12 @@ var kitsByName = {
       }
 
       return pick([
-        `find ${inner} at ${outer}`,
+        `insert ${inner} into ${outer}`,
         `put ${inner} in ${outer}`,
-        `shun ${inner} in ${outer}`,
         `condemn ${inner} in ${outer}`,
         `destroy ${inner} in ${outer}`,
         `drive ${inner} out of ${outer}`,
+        `can spot the ${inner} in ${outer}`,
         `visit ${inner} at ${outer}`
       ]);
     }
@@ -46,14 +46,15 @@ var kitsByName = {
           `${pick(['know', 'remember', 'acknowledge'])} that ${subject} can ${
             concept
           }`,
-          `stop ${subject} and disallow ${concept}`
+          `smash ${subject} and ruin ${concept}`
         ]);
       } else {
         return pick([
           `${pick(['know', 'remember', 'acknowledge'])} that ${concept} can ${
             object
           }`,
-          `${pick(['pay', 'command', 'demand'])} ${concept} to ${object}`
+          `${pick(['pay', 'command'])} ${concept} to ${object}`,
+          `${pick(['assert', 'demand'])} ${concept} ${object}`
         ]);
       }
     }
@@ -104,24 +105,26 @@ var kitsByName = {
     }
   },
   UsedFor: {
+    relPhrases: ['use'],
     format({ subject, object, concept }) {
       if (!subject && !object) {
         return formatSingleConcept(concept);
       }
       if (subject) {
         return pick([
-          `enlist ${subject} when they ${concept}`,
+          `enlist ${subject} when it's time for ${concept}`,
           `use ${subject} for ${concept}`
         ]);
       } else {
         return pick([
           `exploit ${concept} for ${object}`,
-          `get new ${concept} every time they ${object}`
+          `get new ${concept} when ${object}`
         ]);
       }
     }
   },
   CausesDesire: {
+    relPhrases: ['motivate others to', 'inspire the people to'],
     format({ subject, object, concept }) {
       if (!subject && !object) {
         return formatSingleConcept(concept);
@@ -142,6 +145,7 @@ var kitsByName = {
     }
   },
   CreatedBy: {
+    relPhrases: ['come from', 'arise from'],
     format({ subject, object, concept }) {
       if (!subject && !object) {
         return formatSingleConcept(concept);
@@ -166,6 +170,7 @@ var kitsByName = {
     }
   },
   DefinedAs: {
+    relPhrases: ['think of themselves as', 'know that they'],
     format: identityStyleFormat
     // format({ subject, object, concept }) {
     // if (!subject && !object) {
@@ -187,21 +192,27 @@ var kitsByName = {
   // }
   // }
   HasFirstSubevent: {
+    relPhrases: [''],
     format: sequentialStyleFormat
   },
   HasLastSubevent: {
+    relPhrases: [''],
     format: sequentialStyleFormat
   },
   HasPrerequisite: {
+    relPhrases: [''],
     format: prerequisiteStyleFormat
   },
   HasProperty: {
+    relPhrases: ['are'],
     format: identityStyleFormat
   },
   HasSubevent: {
+    relPhrases: [''],
     format: whileStyleFormat
   },
   InstanceOf: {
+    relPhrases: ['are'],
     format({ subject, object, concept }) {
       if (!subject && !object) {
         return formatSingleConcept(concept);
@@ -233,13 +244,14 @@ var kitsByName = {
   // return useReceivers ? `${concept}` : `${concept} things`;
   // }
   // }
-  MadeOf: { format: identityStyleFormat },
+  MadeOf: { relPhrases: ['are made of'], format: identityStyleFormat },
   // MannerOf: {
   // format({ subject, object }) {
   // return useReceivers ? `way to ${concept}` : `things is a way to ${concept}`;
   // }
   // }
   MotivatedByGoal: {
+    relPhrases: ['succeed because'],
     format({ subject, object, concept }) {
       if (!subject && !object) {
         return formatSingleConcept(concept);
@@ -273,6 +285,7 @@ var kitsByName = {
   // }
   // },
   dbpedia_influencedBy: {
+    relPhrases: ['worship', 'are influenced by', 'respect'],
     format({ concept }) {
       return `${pick(['worship', 'are influenced by', 'respect'])} ${concept}`;
     }
@@ -285,7 +298,7 @@ function causalStyleFormat({ subject, object, concept }) {
   }
   if (subject) {
     return pick([
-      `${concept} because they ${subject}`,
+      `${concept} because they are ${subject}`,
       `Understand you gotta ${subject} if you want ${concept}`
     ]);
   } else {
@@ -356,11 +369,11 @@ function formatSingleConcept(concept) {
 }
 
 var table = probable.createTableFromSizes([
-  [7, 'AtLocation'],
+  [6, 'AtLocation'],
   [7, 'CapableOf'],
-  [7, 'Causes'],
-  [11, 'HasA'],
-  [3000, 'PartOf'],
+  [9, 'Causes'],
+  [15, 'HasA'],
+  [3, 'PartOf'],
   [6, 'UsedFor'],
   [5, 'CausesDesire'],
   [9, 'CreatedBy'],

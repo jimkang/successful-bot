@@ -8,6 +8,14 @@ var wordnok = Wordnok({
 var splitToWords = require('split-to-words');
 var callNextTick = require('call-next-tick');
 
+var wordsWeJustKnowAreVerbForms = [
+  'serving',
+  'making',
+  'meeting',
+  'going',
+  'waiting'
+];
+
 // Canonicalizes the verbs at the start of the phrase
 // only.
 function canonicalizePhrase(phrase, canonicalizeDone) {
@@ -35,8 +43,7 @@ function canonicalizePhrase(phrase, canonicalizeDone) {
       // with adjectives often, so maybe this will
       // be safe?
       partsOfSpeech.indexOf('adjective') === -1 &&
-      word.toLowerCase() !== 'serving' &&
-      word.toLowerCase() !== 'making'
+      wordsWeJustKnowAreVerbForms.indexOf(word.toLowerCase()) === -1
     ) {
       // If it doesn't start with a verb, there's
       // nothing to do.

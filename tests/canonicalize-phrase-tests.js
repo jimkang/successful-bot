@@ -26,6 +26,10 @@ var testCases = [
   {
     phrase: 'Making Weight',
     expected: 'are Making Weight'
+  },
+  {
+    phrase: 'Meeting People',
+    expected: 'are Meeting People'
   }
 ];
 

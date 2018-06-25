@@ -36,7 +36,7 @@ function getSuccessItem({ relationshipTable, method = 'relationship' }, done) {
       return;
     }
 
-    var prefix = probable.pickFromArray(['never', 'always', 'passionately']);
+    var prefix = probable.pickFromArray(['always', 'passionately']);
 
     var suffix = probable.pickFromArray([
       'constantly',
@@ -44,10 +44,10 @@ function getSuccessItem({ relationshipTable, method = 'relationship' }, done) {
       'religiously'
     ]);
     var decorated = baseStatement;
-    if (probable.roll(5) === 0) {
+    if (probable.roll(10) === 0) {
       decorated = `${decorated} ${suffix}`;
     }
-    if (probable.roll(8) === 0) {
+    if (probable.roll(12) === 0) {
       decorated = `${prefix} ${decorated}`;
     }
     decorated = decorated.charAt(0).toUpperCase() + decorated.slice(1);
@@ -72,9 +72,25 @@ function getBaseFromConcepts({ relationship, useSimplePhrase }, done) {
       if (doesNotEndInPreposition(concept)) {
         subject = pick(map.emittingConcepts.filter(doesNotEndInPreposition));
         object = pick(map.receivingConcepts.filter(doesNotEndInPreposition));
-        if (useSimplePhrase) {
+        // subject = subject ? subject.toUpperCase() : subject;
+        // object = object ? object.toUpperCase() : object;
+        // concept = concept ? concept.toUpperCase() : concept;
+        // subject = subject ? `[${subject}]` : subject;
+        // object = object ? `[${object}]` : object;
+        // concept = concept ? `[${concept}]` : concept;
+        // Some relationships don't work with useSimplePhrase.
+        // Some relationships don't work with useSimplePhrase.
+        if (
+          useSimplePhrase &&
+          [
+            'UsedFor',
+            'HasPrerequisite',
+            'InstanceOf',
+            'MotivatedByGoal'
+          ].indexOf(relationship) === -1
+        ) {
+          let relPhrase = pick(kit.relPhrases);
           if (object) {
-            var relPhrase = pick(kit.relPhrases);
             if (relPhrase) {
               statement = `${relPhrase} ${object}`;
             } else {
