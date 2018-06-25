@@ -18,9 +18,10 @@ var dryRun = process.argv.length > 2 ? process.argv[2] === '--dry' : false;
 
 var staticWebStream = StaticWebArchiveOnGit({
   config: config.github,
-  title: "The Most Successful Bot I've Met",
+  title:
+    '<a href="http://jimkang.com/mostsuccessfulbot/">The Most Successful Bot I\'ve Met</a>',
   footerScript:
-    'Also on Twitter at <a href="https://twitter.com/successfulbot">@successfulbot</a>.',
+    '<footer>Also on Twitter at <a href="https://twitter.com/successfulbot">@successfulbot</a>.</footer>',
   maxEntriesPerPage: 20
 });
 
