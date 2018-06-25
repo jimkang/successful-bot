@@ -1,6 +1,6 @@
 include config.mk
 
-PROJECTNAME = selftagger
+PROJECTNAME = successful-bot
 HOMEDIR = $(shell pwd)
 APPDIR = /opt/$(PROJECTNAME)
 
