@@ -12,6 +12,7 @@ var probable = require('probable');
 var callNextTick = require('call-next-tick');
 var getSuccessItem = require('./get-success-item');
 var compact = require('lodash.compact');
+var conceptKits = require('./concept-kits');
 
 var dryRun = process.argv.length > 2 ? process.argv[2] === '--dry' : false;
 
@@ -33,13 +34,25 @@ function attemptAPost() {
 attemptAPost();
 
 function rollListSize(done) {
-  callNextTick(done, null, 3 + probable.roll(4) + probable.roll(5));
+  callNextTick(done, null, 3 + probable.roll(2) + probable.roll(3));
 }
 
 function getListItems(numberOfItems, done) {
+  var successItemOpts = {
+    method: 'relationship'
+  };
+  if (probable.roll(20) === 0) {
+    successItemOpts.method = 'randomVerbAndNoun';
+  } else {
+    successItemOpts.relationshipTable = probable.createTableFromSizes([
+      [7, conceptKits.pickRandomRelationship()],
+      [2, conceptKits.pickRandomRelationship()],
+      [1, conceptKits.pickRandomRelationship()]
+    ]);
+  }
   var q = queue();
   for (var i = 0; i < numberOfItems; ++i) {
-    q.defer(getSuccessItem);
+    q.defer(getSuccessItem, successItemOpts);
   }
   q.awaitAll(done);
 }

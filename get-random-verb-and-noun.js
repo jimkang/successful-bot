@@ -11,6 +11,7 @@ var sb = require('standard-bail')();
 var probable = require('probable');
 var canonicalizer = require('canonicalizer');
 var canonicalizePhrase = require('./canonicalize-phrase');
+var toTitleCase = require('titlecase');
 
 function getRandomVerbAndNoun(getDone) {
   waterfall(
@@ -39,7 +40,7 @@ function getNoun(verb, done) {
 
   function addNoun(topic) {
     var pluralNoun = canonicalizer.getSingularAndPluralForms(topic)[1];
-    done(null, verb + ' ' + pluralNoun);
+    done(null, toTitleCase(verb + ' ' + pluralNoun));
   }
 }
 

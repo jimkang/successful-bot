@@ -24,13 +24,13 @@ var kitsByName = {
       }
 
       return pick([
-        `finds ${inner} at ${outer}`,
-        `puts ${inner} in ${outer}`,
-        `extracts ${inner} from ${outer}`,
-        `destroys ${inner} in ${outer}`,
-        `filters ${inner} out of ${outer}`,
-        `eats around to ${inner} in ${outer}`,
-        `visits ${inner} at ${outer}`
+        `find ${inner} at ${outer}`,
+        `put ${inner} in ${outer}`,
+        `shun ${inner} in ${outer}`,
+        `condemn ${inner} in ${outer}`,
+        `destroy ${inner} in ${outer}`,
+        `drive ${inner} out of ${outer}`,
+        `visit ${inner} at ${outer}`
       ]);
     }
   },
@@ -44,14 +44,14 @@ var kitsByName = {
           `${pick(['know', 'remember', 'acknowledge'])} that ${subject} can ${
             concept
           }`,
-          `stop ${subject} from ${concept}`
+          `stop ${subject} and disallow ${concept}`
         ]);
       } else {
         return pick([
           `${pick(['know', 'remember', 'acknowledge'])} that ${concept} can ${
             object
           }`,
-          `pay ${concept} to ${object}`
+          `${pick(['pay', 'command', 'demand'])} ${concept} to ${object}`
         ]);
       }
     }
@@ -87,7 +87,7 @@ var kitsByName = {
       }
       if (subject) {
         return pick([
-          `replace ${subject} in every ${concept}`,
+          `inspect ${subject} in every ${concept}`,
           `visit ${subject} whenever they are in ${concept}`
         ]);
       } else {
@@ -105,12 +105,12 @@ var kitsByName = {
       }
       if (subject) {
         return pick([
-          `never ${concept} without ${subject}`,
-          `use ${subject} to ${concept}`
+          `enlist ${subject} when they ${concept}`,
+          `use ${subject} for ${concept}`
         ]);
       } else {
         return pick([
-          `help ${concept} with ${object}`,
+          `exploit ${concept} for ${object}`,
           `get new ${concept} every time they ${object}`
         ]);
       }
@@ -142,10 +142,18 @@ var kitsByName = {
         return formatSingleConcept(concept);
       }
       if (subject) {
-        return pick([`support ${concept} to grow the ${subject} community`]);
+        return pick([
+          `support ${concept} to grow the ${subject} community`,
+          `cherish the ${subject} that come out of ${concept}`,
+          `wait eagerly at the orifice of the ${concept} for the ${
+            subject
+          } to emerge`,
+          `harvest the ${subject} from the ${concept}`
+        ]);
       } else {
         return pick([
           `hire ${object} to make ${concept}`,
+          `promote ${object} that make ${concept}`,
           `empower ${object} to make ${concept}`,
           `respect both ${object} and ${concept}`
         ]);
@@ -207,9 +215,10 @@ var kitsByName = {
       } else {
         return pick([
           `understand ${concept} is ${object}`,
+          `overstand ${concept} is ${object}`,
           `deny that ${concept} is ${object}`,
           `see ${concept} can be ${object}`,
-          `favor ${concept} as the ${object}`
+          `favor ${concept} as the best ${object}`
         ]);
       }
     }
@@ -233,10 +242,10 @@ var kitsByName = {
       if (subject) {
         return pick([
           `get the connection between ${subject} and ${concept}`,
-          `${subject} to bring about ${concept}`
+          `recognize they want to ${concept}, then ${subject}`
         ]);
       } else {
-        return pick([`${concept} to ${object}`]);
+        return pick([`${concept} because they are motivated by ${object}`]);
       }
     }
   },
@@ -288,7 +297,7 @@ function whileStyleFormat({ subject, object, concept }) {
   if (subject) {
     return pick([`${concept} when ${subject}`]);
   } else {
-    return pick([`${object} while ${concept}`]);
+    return pick([`${object} when ${concept}`]);
   }
 }
 
@@ -321,13 +330,13 @@ function identityStyleFormat({ subject, object, concept }) {
   if (subject) {
     return pick([
       `get the connection between ${concept} and ${subject}`,
-      `see that ${concept} are ${subject}`,
+      `see that ${subject} are ${concept}`,
       `recognize that ${subject} is, in truth, ${concept}`
     ]);
   } else {
     return pick([
       `understand ${concept} is ${object}`,
-      `see ${object} as ${concept}`
+      `see ${concept} as ${object}`
     ]);
   }
 }
@@ -342,24 +351,24 @@ function formatSingleConcept(concept) {
 }
 
 var table = probable.createTableFromSizes([
-  // [8, 'AtLocation'],
-  // [6, 'CapableOf'],
-  [3, 'Causes']
-  // [12, 'HasA'],
-  // [3, 'PartOf'],
-  // [6, 'UsedFor'],
-  // [3, 'CausesDesire'],
-  // [9, 'CreatedBy'],
-  // [1, 'DefinedAs'],
-  // [3, 'HasLastSubevent'],
-  // [3, 'HasFirstSubevent'],
-  // [3, 'HasSubevent'],
-  // [1, 'HasPrerequisite'],
-  // [3, 'HasProperty'],
-  // [3, 'InstanceOf'],
-  // [1, 'MadeOf'],
-  // [3, 'MotivatedByGoal'],
-  // [3, 'dbpedia_influencedBy']
+  [7, 'AtLocation'],
+  [7, 'CapableOf'],
+  [7, 'Causes'],
+  [11, 'HasA'],
+  [3, 'PartOf'],
+  [6, 'UsedFor'],
+  [5, 'CausesDesire'],
+  [9, 'CreatedBy'],
+  [1, 'DefinedAs'],
+  [2, 'HasLastSubevent'],
+  [2, 'HasFirstSubevent'],
+  [2, 'HasSubevent'],
+  [1, 'HasPrerequisite'],
+  [5, 'HasProperty'],
+  [2, 'InstanceOf'],
+  [1, 'MadeOf'],
+  [1, 'MotivatedByGoal'],
+  [4, 'dbpedia_influencedBy']
 ]);
 
 module.exports = {
