@@ -19,7 +19,14 @@ function getSuccessItem({ relationshipTable, method = 'relationship' }, done) {
     getItem = getRandomVerbAndNoun;
   } else {
     relationship = relationshipTable.roll();
-    getItem = curry(getBaseFromConcepts)(relationship);
+    if (method === 'actorWithRandomConcept') {
+      getItem = curry(getBaseFromConcepts)({
+        relationship,
+        useSimplePhrase: true
+      });
+    } else {
+      getItem = curry(getBaseFromConcepts)({ relationship });
+    }
   }
   getItem(sb(decorate, done));
 
@@ -48,7 +55,7 @@ function getSuccessItem({ relationshipTable, method = 'relationship' }, done) {
   }
 }
 
-function getBaseFromConcepts(relationship, done) {
+function getBaseFromConcepts({ relationship, useSimplePhrase }, done) {
   var conceptTries = 1;
   tryToGetBaseFromConcepts();
 
@@ -65,7 +72,19 @@ function getBaseFromConcepts(relationship, done) {
       if (doesNotEndInPreposition(concept)) {
         subject = pick(map.emittingConcepts.filter(doesNotEndInPreposition));
         object = pick(map.receivingConcepts.filter(doesNotEndInPreposition));
-        statement = kit.format({ subject, object, concept });
+        if (useSimplePhrase) {
+          if (object) {
+            var relPhrase = pick(kit.relPhrases);
+            if (relPhrase) {
+              statement = `${relPhrase} ${object}`;
+            } else {
+              statement = object;
+            }
+          }
+          // Otherwise, leave it empty.
+        } else {
+          statement = kit.format({ subject, object, concept });
+        }
       }
       if (!statement) {
         console.log(

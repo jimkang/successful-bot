@@ -3,6 +3,7 @@ var pick = probable.pickFromArray;
 
 var kitsByName = {
   AtLocation: {
+    relPhrases: ['go to', 'live in', 'can be found at'],
     format({ subject, object, concept }) {
       if (!subject && !object) {
         return formatSingleConcept(concept);
@@ -35,6 +36,7 @@ var kitsByName = {
     }
   },
   CapableOf: {
+    relPhrases: [''],
     format({ subject, object, concept }) {
       if (!subject && !object) {
         return formatSingleConcept(concept);
@@ -57,9 +59,11 @@ var kitsByName = {
     }
   },
   Causes: {
+    relPhrases: ['make you', 'are the champions of'],
     format: causalStyleFormat
   },
   HasA: {
+    relPhrases: ['have'],
     format({ subject, object, concept }) {
       if (!subject && !object) {
         return formatSingleConcept(concept);
@@ -81,6 +85,7 @@ var kitsByName = {
     }
   },
   PartOf: {
+    relPhrases: ['belong to', 'are committed to', 'live in'],
     format({ subject, object, concept }) {
       if (!subject && !object) {
         return formatSingleConcept(concept);
@@ -355,7 +360,7 @@ var table = probable.createTableFromSizes([
   [7, 'CapableOf'],
   [7, 'Causes'],
   [11, 'HasA'],
-  [3, 'PartOf'],
+  [3000, 'PartOf'],
   [6, 'UsedFor'],
   [5, 'CausesDesire'],
   [9, 'CreatedBy'],

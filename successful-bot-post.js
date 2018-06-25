@@ -13,6 +13,12 @@ var callNextTick = require('call-next-tick');
 var getSuccessItem = require('./get-success-item');
 var compact = require('lodash.compact');
 var conceptKits = require('./concept-kits');
+var Wordnok = require('wordnok').createWordnok;
+var wordnok = Wordnok({
+  apiKey: config.wordnik.apiKey
+});
+var sb = require('standard-bail')();
+var canonicalizer = require('canonicalizer');
 
 var dryRun = process.argv.length > 2 ? process.argv[2] === '--dry' : false;
 
@@ -30,7 +36,10 @@ const maxTries = 5;
 var tryCount = 0;
 
 function attemptAPost() {
-  waterfall([rollListSize, getListItems, assembleList, postToTargets], wrapUp);
+  waterfall(
+    [rollListSize, getActor, getListItems, assembleList, postToTargets],
+    wrapUp
+  );
 }
 
 attemptAPost();
@@ -39,13 +48,29 @@ function rollListSize(done) {
   callNextTick(done, null, 3 + probable.roll(2) + probable.roll(3));
 }
 
-function getListItems(numberOfItems, done) {
+function getActor(numberOfItems, done) {
+  if (probable.roll(5) === 0 || true) {
+    wordnok.getTopic(sb(passActor, done));
+  } else {
+    callNextTick(done, null, { actor: 'people', numberOfItems });
+  }
+
+  function passActor(topic) {
+    var actor = canonicalizer.getSingularAndPluralForms(topic)[1];
+    done(null, { actor, numberOfItems });
+  }
+}
+
+function getListItems({ actor, numberOfItems }, done) {
   var successItemOpts = {
     method: 'relationship'
   };
   if (probable.roll(20) === 0) {
     successItemOpts.method = 'randomVerbAndNoun';
   } else {
+    if (actor !== 'people' || probable.roll(5) === 0 || true) {
+      successItemOpts.method = 'actorWithRandomConcept';
+    }
     successItemOpts.relationshipTable = probable.createTableFromSizes([
       [7, conceptKits.pickRandomRelationship()],
       [2, conceptKits.pickRandomRelationship()],
@@ -56,11 +81,15 @@ function getListItems(numberOfItems, done) {
   for (var i = 0; i < numberOfItems; ++i) {
     q.defer(getSuccessItem, successItemOpts);
   }
-  q.awaitAll(done);
+  q.awaitAll(sb(passResults, done));
+
+  function passResults(successItems) {
+    done(null, { actor, successItems });
+  }
 }
 
-function assembleList(successItems, done) {
-  var listMessage = `The most successful people I've met:
+function assembleList({ actor, successItems }, done) {
+  var listMessage = `The most successful ${actor} I've met:
 
 ${compact(successItems)
     .map(numberItem)
