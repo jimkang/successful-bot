@@ -18,7 +18,7 @@ var dryRun = process.argv.length > 2 ? process.argv[2] === '--dry' : false;
 
 var staticWebStream = StaticWebArchiveOnGit({
   config: config.github,
-  title: 'The Most Successful People I Know',
+  title: "The Most Successful Bot I've Met",
   footerScript: '',
   maxEntriesPerPage: 20
 });
