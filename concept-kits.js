@@ -44,14 +44,14 @@ var kitsByName = {
           `${pick(['know', 'remember', 'acknowledge'])} that ${subject} can ${
             concept
           }`,
-          `use ${subject} to ${concept}`
+          `stop ${subject} from ${concept}`
         ]);
       } else {
         return pick([
           `${pick(['know', 'remember', 'acknowledge'])} that ${concept} can ${
             object
           }`,
-          `use ${concept} to ${object}`
+          `pay ${concept} to ${object}`
         ]);
       }
     }
@@ -271,13 +271,13 @@ function causalStyleFormat({ subject, object, concept }) {
   }
   if (subject) {
     return pick([
-      `understand that ${concept} comes from ${subject}`,
-      `${subject} to get ${concept}`
+      `${concept} because they ${subject}`,
+      `Understand you gotta ${subject} if you want ${concept}`
     ]);
   } else {
     return pick([
       `${concept} in order to ${object}`,
-      `get ${object} via ${concept}`
+      `${object} via ${concept}`
     ]);
   }
 }
@@ -342,9 +342,9 @@ function formatSingleConcept(concept) {
 }
 
 var table = probable.createTableFromSizes([
-  [8, 'AtLocation']
-  // [5, 'CapableOf'],
-  // [3, 'Causes'],
+  // [8, 'AtLocation'],
+  // [6, 'CapableOf'],
+  [3, 'Causes']
   // [12, 'HasA'],
   // [3, 'PartOf'],
   // [6, 'UsedFor'],

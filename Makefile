@@ -13,3 +13,7 @@ sync:
 
 prettier:
 	prettier --single-quote --write "**/*.js"
+
+test:
+	node tests/canonicalize-phrase-tests.js
+

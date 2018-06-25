@@ -6,6 +6,7 @@ var conceptKits = require('./concept-kits');
 var callNextTick = require('call-next-tick');
 var splitToWords = require('split-to-words');
 var getRandomVerbAndNoun = require('./get-random-verb-and-noun');
+var canonicalizePhrase = require('./canonicalize-phrase');
 
 const maxConceptTries = 5;
 var prepositions = ['to', 'for', 'with', 'against', 'by', 'from', 'when'];
@@ -48,25 +49,24 @@ function getBaseFromConcepts(done) {
     conceptCache.getRandomMap({ relationship }, sb(useMap, done));
 
     function useMap(map) {
-      var statement;
       var subject;
       var object;
       var concept = map.concept;
+      var statement;
 
       if (doesNotEndInPreposition(concept)) {
         subject = pick(map.emittingConcepts.filter(doesNotEndInPreposition));
         object = pick(map.receivingConcepts.filter(doesNotEndInPreposition));
-        statement = kit.format({ subject, object, concept: map.concept });
+        statement = kit.format({ subject, object, concept });
       }
       if (!statement) {
         console.log(
           new Error(
             `Could not format message for relationship ${
               relationship
-            } and concept ${map.concept}`
+            } and concept ${concept}`
           )
         );
-        console.log('map', map);
 
         if (conceptTries < maxConceptTries) {
           conceptTries += 1;
@@ -74,7 +74,8 @@ function getBaseFromConcepts(done) {
           return;
         }
       }
-      done(null, statement);
+
+      canonicalizePhrase(statement, done);
     }
   }
 }
