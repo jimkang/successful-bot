@@ -44,10 +44,10 @@ function getSuccessItem({ relationshipTable, method = 'relationship' }, done) {
       'religiously'
     ]);
     var decorated = baseStatement;
-    if (probable.roll(10) === 0) {
+    if (probable.roll(100) === 0) {
       decorated = `${decorated} ${suffix}`;
     }
-    if (probable.roll(12) === 0) {
+    if (probable.roll(20) === 0) {
       decorated = `${prefix} ${decorated}`;
     }
     decorated = decorated.charAt(0).toUpperCase() + decorated.slice(1);

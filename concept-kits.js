@@ -46,7 +46,8 @@ var kitsByName = {
           `${pick(['know', 'remember', 'acknowledge'])} that ${subject} can ${
             concept
           }`,
-          `smash ${subject} and ruin ${concept}`
+          `smash ${subject} and prevent ${concept}`,
+          `crush ${subject}`
         ]);
       } else {
         return pick([
@@ -54,7 +55,7 @@ var kitsByName = {
             object
           }`,
           `${pick(['pay', 'command'])} ${concept} to ${object}`,
-          `${pick(['assert', 'demand'])} ${concept} ${object}`
+          `${pick(['assert', 'demand'])} that ${concept} ${object}`
         ]);
       }
     }
@@ -72,8 +73,9 @@ var kitsByName = {
       if (subject) {
         return pick([
           `pay attention to the ${subject} *and* its ${concept}`,
+          `sacrifice to the ${subject} *and* its ${concept}`,
           `use ${subject} to get ${concept}`,
-          `eat around the ${concept} in ${subject}`
+          `focus on the ${concept} in ${subject}`
         ]);
       } else {
         return pick([
@@ -86,7 +88,7 @@ var kitsByName = {
     }
   },
   PartOf: {
-    relPhrases: ['belong to', 'are committed to', 'live in'],
+    relPhrases: ['belong to', 'commit to', 'live in'],
     format({ subject, object, concept }) {
       if (!subject && !object) {
         return formatSingleConcept(concept);
@@ -94,12 +96,12 @@ var kitsByName = {
       if (subject) {
         return pick([
           `inspect ${subject} in every ${concept}`,
-          `visit ${subject} whenever they are in ${concept}`
+          `visit ${subject} when in ${concept}`
         ]);
       } else {
         return pick([
           `strip the ${concept} from the ${object}`,
-          `act like ${concept} whenever they are in ${object}`
+          `act like ${concept} when in ${object}`
         ]);
       }
     }
@@ -154,9 +156,13 @@ var kitsByName = {
         return pick([
           `support ${concept} to grow the ${subject} community`,
           `cherish the ${subject} that come out of ${concept}`,
-          `wait eagerly at the orifice of the ${concept} for the ${
+          `${pick(['wait', 'crouch', 'slaver'])} ${pick([
+            'eagerly',
+            'desperately',
+            'intensely'
+          ])} ${pick(['at', 'before'])} the orifice of the ${concept} for the ${
             subject
-          } to emerge`,
+          } to ${pick(['emerge', 'ooze forth'])}`,
           `harvest the ${subject} from the ${concept}`
         ]);
       } else {
@@ -285,9 +291,9 @@ var kitsByName = {
   // }
   // },
   dbpedia_influencedBy: {
-    relPhrases: ['worship', 'are influenced by', 'respect'],
+    relPhrases: ['worship', 'follow', 'respect'],
     format({ concept }) {
-      return `${pick(['worship', 'are influenced by', 'respect'])} ${concept}`;
+      return `${pick(['worship', 'obey', 'respect'])} ${concept}`;
     }
   }
 };
@@ -324,7 +330,7 @@ function sequentialStyleFormat({ subject, object, concept }) {
     return formatSingleConcept(concept);
   }
   if (subject) {
-    return pick([`${concept} before ${subject}`]);
+    return pick([`${concept} then ${subject}`]);
   } else {
     return pick([`remember to ${object} when they ${concept}`]);
   }
@@ -360,12 +366,7 @@ function identityStyleFormat({ subject, object, concept }) {
 }
 
 function formatSingleConcept(concept) {
-  return `${pick([
-    'love',
-    'are innately attuned to',
-    'believe in',
-    'demand excellence in'
-  ])} ${concept}`;
+  return `${pick(['love', 'believe in', 'demand excellence in'])} ${concept}`;
 }
 
 var table = probable.createTableFromSizes([
@@ -376,7 +377,7 @@ var table = probable.createTableFromSizes([
   [3, 'PartOf'],
   [6, 'UsedFor'],
   [5, 'CausesDesire'],
-  [9, 'CreatedBy'],
+  [12, 'CreatedBy'],
   [1, 'DefinedAs'],
   [2, 'HasLastSubevent'],
   [2, 'HasFirstSubevent'],
