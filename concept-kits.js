@@ -75,14 +75,16 @@ var kitsByName = {
           `pay attention to the ${subject} *and* its ${concept}`,
           `sacrifice to the ${subject} *and* its ${concept}`,
           `use ${subject} to get ${concept}`,
-          `focus on the ${concept} among ${subject}`
+          `focus on the ${concept} in ${subject}`
         ]);
       } else {
         return pick([
           `treasure the ${object} from ${concept}`,
           `revere the ${object} from ${concept}`,
           `exalt the ${object} from ${concept}`,
-          `${pick(['destroy', 'smash', 'crush', 'caress'])} ${object} in ${concept}`
+          `${pick(['destroy', 'smash', 'crush', 'caress'])} ${object} in ${
+            concept
+          }`
         ]);
       }
     }
@@ -101,6 +103,7 @@ var kitsByName = {
       } else {
         return pick([
           `strip the ${concept} from the ${object}`,
+          `praise the ${concept} as the best part of ${object}`,
           `act like ${concept} when in ${object}`
         ]);
       }
@@ -140,7 +143,7 @@ var kitsByName = {
       } else {
         return pick([
           `${object} because ${concept}`,
-          `experience ${concept}, then ${object}`,
+          `experience ${object}, then ${concept}`,
           `respect both ${object} *and* ${concept}`
         ]);
       }

@@ -11,6 +11,7 @@ var curry = require('lodash.curry');
 
 const maxConceptTries = 5;
 var prepositions = ['to', 'for', 'with', 'against', 'by', 'from', 'when'];
+var badPhraseEndings = [' who', ' has'];
 
 function getSuccessItem({ relationshipTable, method = 'relationship' }, done) {
   var relationship;
@@ -69,9 +70,9 @@ function getBaseFromConcepts({ relationship, useSimplePhrase }, done) {
       var concept = map.concept;
       var statement;
 
-      if (doesNotEndInPreposition(concept)) {
-        subject = pick(map.emittingConcepts.filter(doesNotEndInPreposition));
-        object = pick(map.receivingConcepts.filter(doesNotEndInPreposition));
+      if (phraseIsUsable(concept)) {
+        subject = pick(map.emittingConcepts.filter(phraseIsUsable));
+        object = pick(map.receivingConcepts.filter(phraseIsUsable));
         // subject = subject ? subject.toUpperCase() : subject;
         // object = object ? object.toUpperCase() : object;
         // concept = concept ? concept.toUpperCase() : concept;
@@ -123,10 +124,22 @@ function getBaseFromConcepts({ relationship, useSimplePhrase }, done) {
   }
 }
 
+function phraseIsUsable(phrase) {
+  return doesNotEndInPreposition(phrase) && doesNotEndBadly(phrase);
+}
+
 function doesNotEndInPreposition(phrase) {
   var words = splitToWords(phrase);
   if (words.length > 0) {
     return prepositions.indexOf(words[0].toLowerCase()) === -1;
+  }
+}
+
+function doesNotEndBadly(phrase) {
+  return !badPhraseEndings.some(phraseEndsInEnding);
+
+  function phraseEndsInEnding(ending) {
+    return phrase.endsWith(ending);
   }
 }
 
