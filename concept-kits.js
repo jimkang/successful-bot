@@ -375,11 +375,11 @@ function formatSingleConcept(concept) {
 var table = probable.createTableFromSizes([
   [6, 'AtLocation'],
   [7, 'CapableOf'],
-  [9, 'Causes'],
+  [11, 'Causes'],
   [15, 'HasA'],
   [3, 'PartOf'],
   [6, 'UsedFor'],
-  [5, 'CausesDesire'],
+  [8, 'CausesDesire'],
   [12, 'CreatedBy'],
   [1, 'DefinedAs'],
   [2, 'HasLastSubevent'],
