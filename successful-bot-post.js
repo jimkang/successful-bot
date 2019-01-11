@@ -3,7 +3,6 @@
 var config = require('./config');
 // var config = require('./test-config');
 
-var Twit = require('twit');
 var waterfall = require('async-waterfall');
 var queue = require('d3-queue').queue;
 var randomId = require('idmaker').randomId;
@@ -27,12 +26,9 @@ var staticWebStream = StaticWebArchiveOnGit({
   config: config.github,
   title:
     '<a href="http://jimkang.com/mostsuccessfulbot/">The Most Successful Bot I\'ve Met</a>',
-  footerScript:
-    '<footer>Also on Twitter at <a href="https://twitter.com/successfulbot">@successfulbot</a>.</footer>',
   maxEntriesPerPage: 20
 });
 
-var twit = new Twit(config.twitter);
 const maxTries = 5;
 var tryCount = 0;
 
@@ -110,20 +106,13 @@ function postToTargets(text, done) {
   } else {
     var q = queue();
     q.defer(postToArchive, text);
-    q.defer(postToTwitter, text);
+    //q.defer(postToTwitter, text);
     q.await(done);
   }
 }
 
 function numberItem(item, i) {
   return `${i + 1}. ${item}`;
-}
-
-function postToTwitter(text, done) {
-  var body = {
-    status: text
-  };
-  twit.post('statuses/update', body, done);
 }
 
 function postToArchive(text, done) {

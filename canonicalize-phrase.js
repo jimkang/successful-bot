@@ -53,9 +53,7 @@ function canonicalizePhrase(phrase, canonicalizeDone) {
 
     var reqOpts = {
       method: 'GET',
-      url: `https://api.wordnik.com/v4/word.json/${
-        word
-      }?useCanonical=true&includeSuggestions=false&api_key=${
+      url: `https://api.wordnik.com/v4/word.json/${word}?useCanonical=true&includeSuggestions=false&api_key=${
         config.wordnik.apiKey
       }`,
       json: true

@@ -106,9 +106,7 @@ function getBaseFromConcepts({ relationship, useSimplePhrase }, done) {
       if (!statement) {
         console.log(
           new Error(
-            `Could not format message for relationship ${
-              relationship
-            } and concept ${concept}`
+            `Could not format message for relationship ${relationship} and concept ${concept}`
           )
         );
 

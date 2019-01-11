@@ -43,17 +43,21 @@ var kitsByName = {
       }
       if (subject) {
         return pick([
-          `${pick(['know', 'remember', 'acknowledge'])} that ${subject} can ${
-            concept
-          }`,
+          `${pick([
+            'know',
+            'remember',
+            'acknowledge'
+          ])} that ${subject} can ${concept}`,
           `smash ${subject} and prevent ${concept}`,
           `crush ${subject}`
         ]);
       } else {
         return pick([
-          `${pick(['know', 'remember', 'acknowledge'])} that ${concept} can ${
-            object
-          }`,
+          `${pick([
+            'know',
+            'remember',
+            'acknowledge'
+          ])} that ${concept} can ${object}`,
           `${pick(['pay', 'command'])} ${concept} to ${object}`,
           `${pick(['assert', 'demand'])} that ${concept} ${object}`
         ]);
@@ -82,9 +86,12 @@ var kitsByName = {
           `treasure the ${object} from ${concept}`,
           `revere the ${object} from ${concept}`,
           `exalt the ${object} from ${concept}`,
-          `${pick(['destroy', 'smash', 'crush', 'caress'])} ${object} in ${
-            concept
-          }`
+          `${pick([
+            'destroy',
+            'smash',
+            'crush',
+            'caress'
+          ])} ${object} in ${concept}`
         ]);
       }
     }
@@ -163,9 +170,13 @@ var kitsByName = {
             'eagerly',
             'desperately',
             'intensely'
-          ])} ${pick(['at', 'before'])} the orifice of the ${concept} for the ${
-            subject
-          } to ${pick(['emerge', 'ooze forth'])}`,
+          ])} ${pick([
+            'at',
+            'before'
+          ])} the orifice of the ${concept} for the ${subject} to ${pick([
+            'emerge',
+            'ooze forth'
+          ])}`,
           `harvest the ${subject} from the ${concept}`
         ]);
       } else {
