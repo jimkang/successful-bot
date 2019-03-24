@@ -5,8 +5,6 @@ var config = require('./config');
 
 var waterfall = require('async-waterfall');
 var queue = require('d3-queue').queue;
-var randomId = require('idmaker').randomId;
-var StaticWebArchiveOnGit = require('static-web-archive-on-git');
 var probable = require('probable');
 var callNextTick = require('call-next-tick');
 var getSuccessItem = require('./get-success-item');
@@ -19,15 +17,9 @@ var wordnok = Wordnok({
 var sb = require('standard-bail')();
 var canonicalizer = require('canonicalizer');
 var minimist = require('minimist');
+var postIt = require('@jimkang/post-it');
 
 var { dry, rel } = minimist(process.argv.slice(2));
-
-var staticWebStream = StaticWebArchiveOnGit({
-  config: config.github,
-  title:
-    '<a href="http://jimkang.com/mostsuccessfulbot/">The Most Successful Bot I\'ve Met</a>',
-  maxEntriesPerPage: 20
-});
 
 const maxTries = 5;
 var tryCount = 0;
@@ -104,24 +96,12 @@ function postToTargets(text, done) {
     console.log('Would have posted:', text);
     callNextTick(done);
   } else {
-    var q = queue();
-    q.defer(postToArchive, text);
-    //q.defer(postToTwitter, text);
-    q.await(done);
+    postIt({ text, targets: [{ config: config.noteTaker }] }, done);
   }
 }
 
 function numberItem(item, i) {
   return `${i + 1}. ${item}`;
-}
-
-function postToArchive(text, done) {
-  staticWebStream.write({
-    id: `successlist-${randomId(8)}`,
-    date: new Date().toISOString(),
-    caption: text.replace(/\n/g, '<br>\n')
-  });
-  staticWebStream.end(done);
 }
 
 function wrapUp(error, data) {
