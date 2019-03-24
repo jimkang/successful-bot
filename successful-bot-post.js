@@ -96,7 +96,7 @@ function postToTargets(text, done) {
     console.log('Would have posted:', text);
     callNextTick(done);
   } else {
-    postIt({ text, targets: [{ config: config.noteTaker }] }, done);
+    postIt({ text, targets: [{ type: 'noteTaker', config: config.noteTaker }] }, done);
   }
 }
 
