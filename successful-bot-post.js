@@ -88,10 +88,17 @@ function assembleList({ actor, successItems }, done) {
 ${compact(successItems)
     .map(numberItem)
     .join('\n')}`;
-  callNextTick(done, null, listMessage);
+
+  const listHTML = `<h4>The most successful {$actor} I've met:</h4>
+<ol>
+${compact(successItems)
+    .map(tagItem)
+    .join('\n')}
+</ol>`;
+  callNextTick(done, null, { text: listMessage, html: listHTML });
 }
 
-function postToTargets(text, done) {
+function postToTargets({ text, html }, done) {
   if (dry) {
     console.log('Would have posted:', text);
     callNextTick(done);
@@ -102,7 +109,7 @@ function postToTargets(text, done) {
         targets: [
           {
             type: 'noteTaker',
-            text: text.replace(/\n/g, '<br><br>\n'),
+            text: html,
             config: config.noteTaker
           }
         ]
@@ -114,6 +121,10 @@ function postToTargets(text, done) {
 
 function numberItem(item, i) {
   return `${i + 1}. ${item}`;
+}
+
+function tagItem(item) {
+  return `<li>${item}</li>`;
 }
 
 function wrapUp(error, data) {
