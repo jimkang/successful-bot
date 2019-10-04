@@ -86,14 +86,14 @@ function assembleList({ actor, successItems }, done) {
   var listMessage = `The most successful ${actor} I've met:
 
 ${compact(successItems)
-    .map(numberItem)
-    .join('\n')}`;
+  .map(numberItem)
+  .join('\n')}`;
 
   const listHTML = `<h4>The most successful ${actor} I've met:</h4>
 <ol>
 ${compact(successItems)
-    .map(tagItem)
-    .join('\n')}
+  .map(tagItem)
+  .join('\n')}
 </ol>`;
   callNextTick(done, null, { text: listMessage, html: listHTML });
 }
