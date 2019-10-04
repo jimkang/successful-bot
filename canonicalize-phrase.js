@@ -29,9 +29,10 @@ function canonicalizePhrase(phrase, canonicalizeDone) {
     return;
   }
 
-  var word = words[0];
+  const word = words[0];
+  const lowercaseWord = word.toLowerCase();
   wordnok.getPartsOfSpeech(
-    word.toLowerCase(),
+    lowercaseWord,
     sb(requestCanonicalizeVerb, canonicalizeDone)
   );
 
@@ -43,7 +44,7 @@ function canonicalizePhrase(phrase, canonicalizeDone) {
       // with adjectives often, so maybe this will
       // be safe?
       partsOfSpeech.indexOf('adjective') === -1 &&
-      wordsWeJustKnowAreVerbForms.indexOf(word.toLowerCase()) === -1
+      wordsWeJustKnowAreVerbForms.indexOf(lowercaseWord === -1)
     ) {
       // If it doesn't start with a verb, there's
       // nothing to do.
@@ -53,19 +54,23 @@ function canonicalizePhrase(phrase, canonicalizeDone) {
 
     var reqOpts = {
       method: 'GET',
-      url: `https://api.wordnik.com/v4/word.json/${word}?useCanonical=true&includeSuggestions=false&api_key=${
-        config.wordnik.apiKey
-      }`,
+      url: `https://api.wordnik.com/v4/word.json/${lowercaseWord}/definitions?limit=1&useCanonical=false&sourceDictionaries=wiktionary&includeRelated=false&includeTags=false&api_key=${config.wordnik.apiKey}`,
       json: true
     };
     request(reqOpts, sb(pickOutCanonicalizedVerb, canonicalizeDone));
   }
 
   function pickOutCanonicalizedVerb(res, body) {
-    var verb = body.word;
+    if (!body || body.length < 1) {
+      // Give up.
+      callNextTick(canonicalizeDone, null, phrase);
+      return;
+    }
+
+    var verb = body[0].word;
     // Sometimes, Wordnik won't get it. e.g. 'disempowered' will come back as 'disempowered'.
     // We'll have to deal with it as is by adding words to make the plural subject agree with it.
-    if (verb === word.toLowerCase()) {
+    if (verb === lowercaseWord) {
       if (verb.length > 5 && verb.slice(-2) === 'ed') {
         verb = 'have ' + word;
       } else if (verb.length > 5 && verb.slice(-3) === 'ing') {

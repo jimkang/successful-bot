@@ -21,7 +21,7 @@ var testCases = [
   },
   {
     phrase: 'shooing flies',
-    expected: 'shoo flies'
+    expected: 'are shooing flies'
   },
   {
     phrase: 'Making Weight',
