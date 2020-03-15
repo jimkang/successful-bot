@@ -31,7 +31,7 @@
     "iscool": "^1.1.62",
     "lodash.compact": "^3.0.1",
     "lodash.pluck": "^3.1.2",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.2",
     "request": "^2.87.0",
     "standard-bail": "^2.0.1",
     "titlecase": "^1.1.2",
